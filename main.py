@@ -1,3 +1,7 @@
+from installPackages import installPackages
+
+installPackages ()
+
 # dataset: https://www.kaggle.com/datasets/sammy123/lower-back-pain-symptoms-dataset
 from bayesianNetwork import bayesianNetwork
 import pandas as pd
@@ -10,9 +14,6 @@ from balancingOfClasses import visualizeAspectRatioChart, visualizeNumberOfSampl
 from outliersRemoval import softClusteringEMOutliersRemoval
 from training import trainModelKFold, visualizeMetricsGraphs
 from verificationFeaturesImportance import createXfeatureAndyTarget, visualizeFeaturesImportances
-from installPackages import installPackages
-
-installPackages ()
 
 # DATASET CLEANING
 fileName = os.path.join(os.path.dirname(__file__), "Dataset_spine.csv")
