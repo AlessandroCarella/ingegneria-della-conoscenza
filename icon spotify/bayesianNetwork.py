@@ -16,36 +16,6 @@ from pgmpy.models import BayesianNetwork
 
 
 def modelCreation(dataSet, differentialColumn):
-    chunk_size = 2000
-
-    chunks = dataSet.groupby(dataSet.index // chunk_size)
-
-    k2 = K2Score(None)
-    hc_k2 = HillClimbSearch(None)
-    k2_model = None
-
-    numeroIterazioni = 0
-    for i, chunk in enumerate(chunks):
-        if i == 0:
-            if isinstance(chunk, tuple):
-                chunk = chunk[1]
-            X_train = chunk.drop(columns=[differentialColumn])
-            y_train = chunk[differentialColumn]
-            k2 = K2Score(X_train)
-            hc_k2 = HillClimbSearch(X_train)
-            k2_model = hc_k2.estimate(scoring_method=k2)
-        else:
-            if isinstance(chunk, tuple):
-                chunk = chunk[1]
-            X_train = pd.concat([X_train, chunk.drop(columns=[differentialColumn])])
-            y_train = pd.concat([y_train, chunk[differentialColumn]])
-        numeroIterazioni += 1
-
-    k2_model.fit(X_train, y_train)
-
-    """
-    print (type (dataSet))
-
     X_train = dataSet
     y_train = dataSet[differentialColumn]
 
@@ -54,7 +24,7 @@ def modelCreation(dataSet, differentialColumn):
 
     k2_model = hc_k2.estimate(scoring_method=k2)
 
-    """"""  
+    """  
     k2_model = 0
     import pickle
 
@@ -62,11 +32,12 @@ def modelCreation(dataSet, differentialColumn):
     with open('k2_model.pkl', 'rb') as file:
         k2_model = pickle.load(file)
     #"""
-
     import pickle
-    with open('k2_model.pkl', 'wb') as file:
-        pickle.dump(k2_model, file)
 
+    # Open the file in binary mode and read the object
+    with open('k2_model.pkl', 'wb') as file:
+        pickle.dumps(k2_model, file) 
+        
     return k2_model
 
 def bNetCreation(k2_model, dataSet):
