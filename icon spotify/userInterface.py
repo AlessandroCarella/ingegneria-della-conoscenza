@@ -11,8 +11,8 @@ def isSpotifyTrackUrl(url):
 
 def getAudioFeatures(url):
     spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(
-        client_id = 'ca5ea105ab4e4630a5acde4d234dd68f',#ca5ea105ab4e4630a5acde4d234dd68f
-        client_secret = 'fb5965d73cc64016b68b08b018f92911'#fb5965d73cc64016b68b08b018f92911
+        client_id = 'client_id',#client_id
+        client_secret = 'client_secret'#client_secret
     ))
 
     return spotify.audio_features(url.split('/')[-1].split('?')[0]), spotify.track(url)["explicit"]
@@ -63,9 +63,10 @@ def querySystem(data, differentialColumn):
         "It allows you to predict whether, taken a song, the user the data are generated on would like it or not.\n\n"
     )
 
+    outputExplain ()
+
     while True:
         i = 0
-        #try:
         prYellow(
             "Input a spotify url for a prediction? - (Typing 'n' close program)"
         )
@@ -74,7 +75,6 @@ def querySystem(data, differentialColumn):
             exit(1)
         else:
             if isSpotifyTrackUrl (result):
-                outputExplain ()
                 trackAudioFeatures, explicit = getAudioFeatures (result)
                 if trackAudioFeatures:
                     evidence = trackAudioFeaturesToQueryEvidence (trackAudioFeatures, explicit)
@@ -83,5 +83,3 @@ def querySystem(data, differentialColumn):
                     print ("Couldn't retreive audio features for the given song from spotify api ")
             else:
                 print ("Url in input is not a valid spotify track url")
-        #except ValueError:
-        #print("Wrong input")

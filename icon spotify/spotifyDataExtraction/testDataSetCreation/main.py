@@ -20,8 +20,8 @@ for song in yesterdaySongs:
     })
 
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(
-        client_id = 'ca5ea105ab4e4630a5acde4d234dd68f',
-        client_secret = 'fb5965d73cc64016b68b08b018f92911'
+        client_id = 'client_id',
+        client_secret = 'client_secret'
     ))
 
 
@@ -46,8 +46,8 @@ if (len (yesterDaySongsDatas) == len (yesterDaySongsStats)):
         #example:  
         #songUri = "spotify:track:7LnDKGTwMoLv3XSgxOnj83"
         #spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(
-        #        client_id = 'ca5ea105ab4e4630a5acde4d234dd68f',
-        #        client_secret = 'fb5965d73cc64016b68b08b018f92911'
+        #        client_id = 'client_id',
+        #        client_secret = 'client_secret'
         #    ))
         #print (spotify.audio_features (songUri)) 
         if singleSpotifyTrackInfoToTrackStats: 

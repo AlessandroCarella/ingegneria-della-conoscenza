@@ -6,8 +6,8 @@ import time
 
 def getTrackUri (artist_name, track_name):
     spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(
-        client_id = 'ca5ea105ab4e4630a5acde4d234dd68f',#ca5ea105ab4e4630a5acde4d234dd68f
-        client_secret = 'fb5965d73cc64016b68b08b018f92911'#fb5965d73cc64016b68b08b018f92911
+        client_id = 'client_id',#client_id
+        client_secret = 'client_secret'#client_secret
     ))
 
     results = spotify.search(q=f'artist:{artist_name} track:{track_name}', type='track')
