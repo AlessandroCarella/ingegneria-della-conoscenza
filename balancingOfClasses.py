@@ -30,8 +30,8 @@ def visualizeAspectRatioChart(dataSet, differentialColumn, labels=["Liked songs"
     ax.axes.get_yaxis().set_visible(False)
     plt.title("Graph of occurrence of liked songs and not like songs")
     plt.legend(labels=labels, loc="best")
-    plt.clf()
     plt.show()
+    plt.clf()
 
 
 def visualizeNumberOfSamplesForClasses(dataSet):

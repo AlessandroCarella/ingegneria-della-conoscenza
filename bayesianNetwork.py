@@ -70,8 +70,8 @@ def showGraphOfNodes(k2_model, bNet):
     )
 
     plt.title("BAYESIAN NETWORK GRAPH")
-    plt.clf()
     plt.show()
+    plt.clf()
 
 
 def testQueries(data, differentialColumn):

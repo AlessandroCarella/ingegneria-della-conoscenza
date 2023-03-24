@@ -3,7 +3,7 @@ import math
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-from stampe import prPurple, prYellow
+from stampe import prPurple, prYellow, prRed
 
 
 def isSpotifyTrackUrl(url):
@@ -77,7 +77,7 @@ def querySystem(data, differentialColumn):
         )
         result = str(input())
         if "N" == result or result == "n":
-            exit(1)
+            exit(0)
         else:
             if isSpotifyTrackUrl(result):
                 trackAudioFeatures, explicit = getAudioFeatures(result)

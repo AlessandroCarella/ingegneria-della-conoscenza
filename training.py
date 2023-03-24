@@ -179,8 +179,8 @@ def findStandardDeviation(X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
     plt.title("Standard deviation")
     plt.ylabel("Standard deviation value")
     plt.xlabel("Classifiers")
-    plt.clf()
     plt.show()
+    plt.clf()
     print("\nStandard deviation for Knn:", std_knn)
     print("\nStandard deviation for DecisionTree:", std_dtc)
     print("\nStandard deviation for RandomForest:", std_rfc)
@@ -202,8 +202,8 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
 
     plt.bar(x, y)
     plt.title("Accuracy")
-    plt.clf()
     plt.show()
+    plt.clf()
 
     # Precision Graph
     x = dataSet_models_concat.model
@@ -211,8 +211,8 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
 
     plt.bar(x, y)
     plt.title("Precision")
-    plt.clf()
     plt.show()
+    plt.clf()
 
     # Recall Graph
     x = dataSet_models_concat.model
@@ -220,8 +220,8 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
 
     plt.bar(x, y)
     plt.title("Recall")
-    plt.clf()
     plt.show()
+    plt.clf()
 
     # F1score Graph
     x = dataSet_models_concat.model
@@ -229,7 +229,7 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
 
     plt.bar(x, y)
     plt.title("F1score")
-    plt.clf()
     plt.show()
+    plt.clf()
 
     findStandardDeviation(X_test, y_test, knn, dtc, rfc, svc, bnb, gnb)

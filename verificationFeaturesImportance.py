@@ -21,5 +21,5 @@ def visualizeFeaturesImportances(rfc_model, X):
 
     plt.title("Top features derived by Random Forest")
     plt.ylabel("")
-    plt.clf()
     plt.show()
+    plt.clf()
