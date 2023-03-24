@@ -17,10 +17,10 @@ def resampleDataset(dataSet, differentialColumn):
     dataSet = pd.concat([df_minority_upsampled, df_majority])
 
     prYellow("\nValue after Oversampling:")
-    prGreenMoreString('Abnormal spine: ', dataSet.Class_att.value_counts()[0],
-                      '(% {:.2f})'.format(dataSet.Class_att.value_counts()[0] / dataSet.Class_att.count() * 100))
-    prRedMoreString('Normal spine: ', dataSet.Class_att.value_counts()[1],
-                    '(% {:.2f})'.format(dataSet.Class_att.value_counts()[1] / dataSet.Class_att.count() * 100))
+    prGreenMoreString('Abnormal spine: ', dataSet.spine_state.value_counts()[0],
+                      '(% {:.2f})'.format(dataSet.spine_state.value_counts()[0] / dataSet.spine_state.count() * 100))
+    prRedMoreString('Normal spine: ', dataSet.spine_state.value_counts()[1],
+                    '(% {:.2f})'.format(dataSet.spine_state.value_counts()[1] / dataSet.spine_state.count() * 100))
 
     return dataSet
 
@@ -39,7 +39,7 @@ def visualizeAspectRatioChart(dataSet, differentialColumn, labels=["Abnormal spi
 def visualizeNumberOfSamplesForClasses(dataSet):
     # Proportion of Abnormal spine (0) and Normal spine (1):
     # [Number of Abnormal spine raws/Total number of Normal spine raws]
-    prGreenMoreString('Abnormal spine: ', dataSet.Class_att.value_counts()[0],
-                      '(% {:.2f})'.format(dataSet.Class_att.value_counts()[0] / dataSet.Class_att.count() * 100))
-    prRedMoreString('Normal spine: ', dataSet.Class_att.value_counts()[1],
-                    '(% {:.2f})'.format(dataSet.Class_att.value_counts()[1] / dataSet.Class_att.count() * 100))
+    prGreenMoreString('Abnormal spine: ', dataSet.spine_state.value_counts()[0],
+                      '(% {:.2f})'.format(dataSet.spine_state.value_counts()[0] / dataSet.spine_state.count() * 100))
+    prRedMoreString('Normal spine: ', dataSet.spine_state.value_counts()[1],
+                    '(% {:.2f})'.format(dataSet.spine_state.value_counts()[1] / dataSet.spine_state.count() * 100))

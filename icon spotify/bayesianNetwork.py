@@ -12,13 +12,39 @@ import pandas as pd
 
 from pgmpy.estimators import K2Score, HillClimbSearch, MaximumLikelihoodEstimator
 from pgmpy.inference import VariableElimination
-from pgmpy.models import BayesianNetwork, BayesianModel
+from pgmpy.models import BayesianNetwork
 
 
 def modelCreation(dataSet, differentialColumn):
+    chunk_size = 2000
+
+    chunks = dataSet.groupby(dataSet.index // chunk_size)
+
+    k2 = K2Score(None)
+    hc_k2 = HillClimbSearch(None)
+    k2_model = None
+
+    numeroIterazioni = 0
+    for i, chunk in enumerate(chunks):
+        if i == 0:
+            if isinstance(chunk, tuple):
+                chunk = chunk[1]
+            X_train = chunk.drop(columns=[differentialColumn])
+            y_train = chunk[differentialColumn]
+            k2 = K2Score(X_train)
+            hc_k2 = HillClimbSearch(X_train)
+            k2_model = hc_k2.estimate(scoring_method=k2)
+        else:
+            if isinstance(chunk, tuple):
+                chunk = chunk[1]
+            X_train = pd.concat([X_train, chunk.drop(columns=[differentialColumn])])
+            y_train = pd.concat([y_train, chunk[differentialColumn]])
+        numeroIterazioni += 1
+
+    k2_model.fit(X_train, y_train)
+
     """
-    dataSet_int = np.array(dataSet, dtype=int)
-    dataSet = pd.DataFrame(dataSet_int, columns=dataSet.columns)
+    print (type (dataSet))
 
     X_train = dataSet
     y_train = dataSet[differentialColumn]
@@ -28,7 +54,7 @@ def modelCreation(dataSet, differentialColumn):
 
     k2_model = hc_k2.estimate(scoring_method=k2)
 
-    """  
+    """"""  
     k2_model = 0
     import pickle
 
@@ -36,6 +62,11 @@ def modelCreation(dataSet, differentialColumn):
     with open('k2_model.pkl', 'rb') as file:
         k2_model = pickle.load(file)
     #"""
+
+    import pickle
+    with open('k2_model.pkl', 'wb') as file:
+        pickle.dump(k2_model, file)
+
     return k2_model
 
 def bNetCreation(k2_model, dataSet):
@@ -59,52 +90,52 @@ def showGraphOfNodes(k2_model, bNet):
                            edge_vmin=2, edge_vmax=2)
 
     plt.title("BAYESIAN NETWORK GRAPH")
-    #plt.show()
+    plt.show()
 
 
 def testQueries(data, differentialColumn):
-    prYellow("Probability results for Class_att are so structured:")
+    prYellow("Probability results for songIsLiked are so structured:")
     print(" +--------------------------------+---------------------------+\n",
           "|         feature name          |    feature probability    |\n",
           "+===============================+===========================+\n",
-          "|  feature name(abnormal spine) | probability feature (val) |\n",
+          "|  feature name(not liked song spine) | probability feature (val) |\n",
           "+-------------------------------+---------------------------+\n",
-          "|  feature name(normal spine)   | probability feature (val) |\n",
+          "|  feature name(liked song spine)   | probability feature (val) |\n",
           "+-------------------------------+---------------------------+")
     prPurple(
         "Probability value fluctuates between 0 (impossible event) to 1 (certain event)\n")
-
-    # Potential normal spine subject
-    normalSpine = data.query(
-        show_progress=False, 
-        variables=[differentialColumn],
-        evidence={
-            #'pelvic radius': 115,
-            'sacrum angle': 4,
-            'thoracic slope': 17,
-            'degree spondylolisthesis': 2,
-            'lumbar lordosis angle': 39,
-        }
-    )
-
-    prGreen('\nProbability for a potentially normal spines:')
-    print(normalSpine, '\n')
 
     # Potential abnormal spine subject
     abnormalSpine = data.query(
         show_progress=False, 
         variables=[differentialColumn],
         evidence={
-            'pelvic radius': 113,
-            'sacrum angle': -26,
-            'thoracic slope': 8,
-            'degree spondylolisthesis': 4,
-            'lumbar lordosis angle': 24,
+            'thoracic slope': 14,
+            'degree spondylolisthesis': 0,
+            'lumbar lordosis angle': 39,
+            'pelvic radius': 98,
+            'sacrum angle': -28,
         }
     )
 
     prRed('\nProbability for a potential abnormal spine:')
     print(abnormalSpine)
+
+    # Potential normal spine subject
+    normalSpine = data.query(
+        show_progress=False, 
+        variables=[differentialColumn],
+        evidence={
+            'thoracic slope': 11,
+            'degree spondylolisthesis': 2,
+            'lumbar lordosis angle': 51,
+            'pelvic radius': 125,
+            'sacrum angle': -17,
+        }
+    )
+
+    prGreen('\nProbability for a potentially normal spines:')
+    print(normalSpine, '\n')
 
 
 def querySystem(dataSet, differentialColumn, data, bNet):
@@ -161,15 +192,13 @@ def querySystem(dataSet, differentialColumn, data, bNet):
 
 
 def bayesianNetwork(dataSet, differentialColumn):
-    np.random.seed(42)  # set seed to always get the same byesian network
-
     model = modelCreation(dataSet, differentialColumn)
 
     bNet = bNetCreation(model, dataSet)
 
     showGraphOfNodes(model, bNet)
 
-    prYellow("\nMarkov blanket for \"Class_att\"")
+    prYellow("\nMarkov blanket for \"songIsLiked\"")
     print(bNet.get_markov_blanket(differentialColumn), "\n")
 
     data = VariableElimination(bNet) 

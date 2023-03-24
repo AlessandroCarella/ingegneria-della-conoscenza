@@ -132,11 +132,11 @@ def trainModelKFold(dataSet, differentialColumn, model=createModel()):
 
         data_train = pd.DataFrame(training_set, columns=dataSet.columns)
         X_train = data_train.drop(differentialColumn, axis=1)
-        y_train = data_train.Class_att
+        y_train = data_train.spine_state
 
         data_test = pd.DataFrame(testing_set, columns=dataSet.columns)
         X_test = data_test.drop(differentialColumn, axis=1)
-        y_test = data_test.Class_att
+        y_test = data_test.spine_state
 
         knn.fit(X_train, y_train)
         dtc.fit(X_train, y_train)

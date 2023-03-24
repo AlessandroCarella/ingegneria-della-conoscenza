@@ -1,4 +1,5 @@
 def cleanAndRenameColumnsOfDataset(dataSet, differentialColumn):
+    #vecchio codice
     dataSet.rename(columns={
         'Col1': 'pelvic incidence',
         'Col2': 'pelvic tilt',
@@ -12,7 +13,7 @@ def cleanAndRenameColumnsOfDataset(dataSet, differentialColumn):
         'Col10': 'cervical tilt',
         'Col11': 'sacrum angle',
         'Col12': 'scoliosis slope',
-        #'Class_att': "spine_state"
+        'Class_att': "spine_state"
     },
         inplace=True, errors='raise')
 

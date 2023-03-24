@@ -9,7 +9,7 @@ differentialColumn = "Class_att"
 dataSet = cleanAndRenameColumnsOfDataset (dataSet, differentialColumn)
 
 # define the list of columns to keep
-keep_cols = ['thoracic slope', 'degree spondylolisthesis', 'lumbar lordosis angle', 'pelvic radius', 'sacrum angle', "Class_att"]
+keep_cols = ['scoliosis slope', 'degree spondylolisthesis', 'pelvic tilt', 'pelvic radius', 'lumbar lordosis angle', 'sacral slope', "Class_att"]
 
 # drop any columns that are not in the list
 dataSet = dataSet[keep_cols]

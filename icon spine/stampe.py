@@ -9,7 +9,7 @@ import itertools
 
 
 def histogramAndDensityPlot(dataSet, differentialColumn):
-    # Drop "Class_att" feature
+    # Drop "spine_state" feature
     #dataSet = dataSet.drop(differentialColumn, axis=1)
 
     # Histogram
@@ -21,7 +21,7 @@ def histogramAndDensityPlot(dataSet, differentialColumn):
     #plt.savefig (os.path.join((os.path.abspath ("")), "pic", "density plot " + str(datetime.datetime.now().strftime("%Y-%m-%d %H-%M-%S")) + ".jpeg"))
 
     setFeatures = ["pelvic incidence", "pelvic tilt", "lumbar lordosis angle", "sacral slope", "pelvic radius", "degree spondylolisthesis",
-                   "pelvic slope", "direct tilt", "thoracic slope", "cervical tilt", "sacrum angle", "scoliosis slope", "Class_att"]
+                   "pelvic slope", "direct tilt", "thoracic slope", "cervical tilt", "sacrum angle", "scoliosis slope", "spine_state"]
 
     combinations = list(itertools.combinations(setFeatures, 2))
 
