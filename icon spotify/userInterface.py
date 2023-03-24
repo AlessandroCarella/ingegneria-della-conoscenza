@@ -1,5 +1,7 @@
 from stampe import *
 
+import math
+
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
@@ -15,21 +17,33 @@ def getAudioFeatures(url):
 
     return spotify.audio_features(url.split('/')[-1].split('?')[0]), spotify.track(url)["explicit"]
 
+def normalizeCos1To100Int (value):
+    return int((math.cos(value) + 1) / 2 * 100)
+
 def trackAudioFeaturesToQueryEvidence (trackAudioFeatures, explicit):
     return {
-        "trackIsexplicit": explicit,
-        "danceability": trackAudioFeatures [0]["danceability"],
-        "energy": trackAudioFeatures [0]["energy"],
-        "key": trackAudioFeatures [0]["key"],
-        "loudness": trackAudioFeatures [0]["loudness"],
-        "speechiness": trackAudioFeatures [0]["speechiness"],
-        "acousticness": trackAudioFeatures [0]["acousticness"],
-        "instrumentalness": trackAudioFeatures [0]["instrumentalness"],
-        "valence": trackAudioFeatures [0]["valence"],
-        "tempo": trackAudioFeatures [0]["tempo"],
+        "trackIsexplicit": 1 if explicit else 0,
+        "danceability": normalizeCos1To100Int(trackAudioFeatures [0]["danceability"]),
+        "energy": normalizeCos1To100Int(trackAudioFeatures [0]["energy"]),
+        "key": normalizeCos1To100Int(trackAudioFeatures [0]["key"]),
+        "loudness": normalizeCos1To100Int(trackAudioFeatures [0]["loudness"]),
+        "speechiness": normalizeCos1To100Int(trackAudioFeatures [0]["speechiness"]),
+        "acousticness": normalizeCos1To100Int(trackAudioFeatures [0]["acousticness"]),
+        "instrumentalness": normalizeCos1To100Int(trackAudioFeatures [0]["instrumentalness"]),
+        "valence": normalizeCos1To100Int(trackAudioFeatures [0]["valence"]),
+        "tempo": normalizeCos1To100Int(trackAudioFeatures [0]["tempo"]),
     }
 
 def queryOutput (data, differentialColumn, evidence):
+    querySong = data.query( #0
+        show_progress=False,
+        variables=[differentialColumn],
+        evidence=evidence
+    )
+    prRed("\nProbability for given url:")
+    print(querySong)
+
+def outputExplain ():
     print(
         "+-------------------------------+---------------------------+\n",
         "|         feature name          |    feature probability    |\n",
@@ -42,15 +56,6 @@ def queryOutput (data, differentialColumn, evidence):
     prPurple(
         "Probability value fluctuates between 0 (impossible event) to 1 (certain event)\n"
     )
-
-    # Potential querySong
-    querySong = data.query( #0
-        show_progress=False,
-        variables=[differentialColumn],
-        evidence=evidence
-    )
-    prRed("\nProbability for given url:")
-    print(querySong)
 
 def querySystem(data, differentialColumn):
     prYellow(
@@ -69,6 +74,7 @@ def querySystem(data, differentialColumn):
             exit(1)
         else:
             if isSpotifyTrackUrl (result):
+                outputExplain ()
                 trackAudioFeatures, explicit = getAudioFeatures (result)
                 if trackAudioFeatures:
                     evidence = trackAudioFeaturesToQueryEvidence (trackAudioFeatures, explicit)
