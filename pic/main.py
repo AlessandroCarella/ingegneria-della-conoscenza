@@ -7,12 +7,7 @@ print (os.listdir("pic"))
 
 """
 
-files = [['acousticness2023-03-20 23-07-03.jpeg', 'acousticness2023-03-20 23-07-59.jpeg'], ['danceability2023-03-20 23-07-03.jpeg', 'danceability2023-03-20 23-07-58.jpeg'], 
- ['energy2023-03-20 23-07-03.jpeg', 'energy2023-03-20 23-07-58.jpeg'], ['instrumentalness2023-03-20 23-07-03.jpeg', 'instrumentalness2023-03-20 23-07-59.jpeg'], 
- ['key2023-03-20 23-07-03.jpeg', 'key2023-03-20 23-07-58.jpeg'], ['liveness2023-03-20 23-07-03.jpeg', 'liveness2023-03-20 23-07-59.jpeg'], 
- ['loudness2023-03-20 23-07-03.jpeg', 'loudness2023-03-20 23-07-58.jpeg'], 
- ['mode2023-03-20 23-07-03.jpeg', 'mode2023-03-20 23-07-59.jpeg'], ['speechiness2023-03-20 23-07-03.jpeg', 'speechiness2023-03-20 23-07-59.jpeg'], 
- ['tempo2023-03-20 23-07-03.jpeg', 'tempo2023-03-20 23-07-59.jpeg'], ['valence2023-03-20 23-07-03.jpeg', 'valence2023-03-20 23-07-59.jpeg']]
+files = [[], []]
 
 for couple in files:
     #Read the two images

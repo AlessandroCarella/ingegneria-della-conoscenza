@@ -1,9 +1,8 @@
-import pandas as pd
 import matplotlib.pyplot as plt
-
+import pandas as pd
 from sklearn.utils import resample
 
-from stampe import prYellow, prGreenMoreString, prRedMoreString
+from stampe import prGreenMoreString, prRedMoreString, prYellow
 
 
 def resampleDataset(dataSet, differentialColumn):
@@ -26,14 +25,13 @@ def resampleDataset(dataSet, differentialColumn):
 
 
 def visualizeAspectRatioChart(dataSet, differentialColumn, labels=["Liked songs", "Not liked songs"]):
-    # Visualization of the aspect ratio chart
     ax = dataSet[differentialColumn].value_counts().plot(
         kind='pie', figsize=(5, 5), labels=None)
     ax.axes.get_yaxis().set_visible(False)
     plt.title("Graph of occurrence of liked songs and not like songs")
     plt.legend(labels=labels, loc="best")
     plt.clf()
-    #plt.show()
+    plt.show()
 
 
 def visualizeNumberOfSamplesForClasses(dataSet):
@@ -53,8 +51,10 @@ def undersampleDataset(dataSet, differentialColumn):
     n_samples_minority = int(n_samples / 2)
     n_samples_majority = int(n_samples / 2)
 
-    df_minority_undersampled = df_minority.sample(n=n_samples_minority, random_state=42)
-    df_majority_undersampled = df_majority.sample(n=n_samples_majority, random_state=42)
+    df_minority_undersampled = df_minority.sample(
+        n=n_samples_minority, random_state=42)
+    df_majority_undersampled = df_majority.sample(
+        n=n_samples_majority, random_state=42)
     dataSet = pd.concat([df_minority_undersampled, df_majority_undersampled])
 
     prYellow("\nValue after Undersampling:")

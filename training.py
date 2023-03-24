@@ -1,18 +1,13 @@
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-
+import numpy as np
+import pandas as pd
 from sklearn import metrics
-from sklearn.model_selection import RepeatedKFold, cross_val_score, KFold
-from sklearn.metrics import accuracy_score
-
-from sklearn.naive_bayes import GaussianNB, BernoulliNB
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import RepeatedKFold, cross_val_score
+from sklearn.naive_bayes import BernoulliNB, GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
-
-
-from sklearn.ensemble import RandomForestClassifier
 
 
 def createModel():
@@ -184,8 +179,8 @@ def findStandardDeviation(X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
     plt.title("Standard deviation")
     plt.ylabel("Standard deviation value")
     plt.xlabel("Classifiers")
-    plt.show()
     plt.clf()
+    plt.show()
     print("\nStandard deviation for Knn:", std_knn)
     print("\nStandard deviation for DecisionTree:", std_dtc)
     print("\nStandard deviation for RandomForest:", std_rfc)
@@ -195,12 +190,11 @@ def findStandardDeviation(X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
 
 
 def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
-    # Visualization of the table with metrics and Graph
     dataSet_models_concat = pd.concat(model_report(
-        model), axis=0).reset_index()  # concatenation of the models
+        model), axis=0).reset_index()
     dataSet_models_concat = dataSet_models_concat.drop(
-        'index', axis=1)  # removal of the index
-    print("\n", dataSet_models_concat)  # table display
+        'index', axis=1)
+    print("\n", dataSet_models_concat)
 
     # Accuracy Graph
     x = dataSet_models_concat.model
@@ -208,8 +202,8 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
 
     plt.bar(x, y)
     plt.title("Accuracy")
-    plt.show()
     plt.clf()
+    plt.show()
 
     # Precision Graph
     x = dataSet_models_concat.model
@@ -217,8 +211,8 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
 
     plt.bar(x, y)
     plt.title("Precision")
-    plt.show()
     plt.clf()
+    plt.show()
 
     # Recall Graph
     x = dataSet_models_concat.model
@@ -226,8 +220,8 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
 
     plt.bar(x, y)
     plt.title("Recall")
-    plt.show()
     plt.clf()
+    plt.show()
 
     # F1score Graph
     x = dataSet_models_concat.model
@@ -235,7 +229,7 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
 
     plt.bar(x, y)
     plt.title("F1score")
-    plt.show()
     plt.clf()
+    plt.show()
 
     findStandardDeviation(X_test, y_test, knn, dtc, rfc, svc, bnb, gnb)

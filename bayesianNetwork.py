@@ -1,64 +1,11 @@
-from stampe import *
-from datasetCleaning import *
-from balancingOfClasses import *
-from outliersRemoval import *
-from training import *
-from verificationFeaturesImportance import *
-from userInterface import *
-
 import matplotlib.pyplot as plt
 import networkx as nx
-import numpy as np
-import pandas as pd
-
-from pgmpy.estimators import K2Score, HillClimbSearch, MaximumLikelihoodEstimator
-
-# alternativa a HillClimbSearch
-from bnlearn import structure_learning
-
 #
 from pgmpy.inference import VariableElimination
-from pgmpy.models import BayesianNetwork, BayesianModel
+from pgmpy.models import BayesianNetwork
 
-from sklearn.feature_selection import SelectKBest, f_regression
-
-
-def printBestFeatures(dataSet, differentialColumn):
-    dataSetTemp = dataSet.copy()
-    X = dataSetTemp.drop(differentialColumn, axis=1)
-    y = dataSetTemp[differentialColumn]
-
-    selector = SelectKBest(score_func=f_regression, k=5)
-    X_new = selector.fit_transform(X, y)
-
-    idxs_selected = selector.get_support(indices=True)
-    selected_columns = X.columns[idxs_selected]
-
-    print (selected_columns.tolist())
-
-def selectBestFeatures(dataSet, differentialColumn):
-    dataSetTemp = dataSet.copy()
-    """
-    #generation of best features
-
-    X = dataSetTemp.drop(differentialColumn, axis=1)
-    y = dataSetTemp[differentialColumn]
-
-    selector = SelectKBest(score_func=f_regression, k=5)
-    X_new = selector.fit_transform(X, y)
-
-    idxs_selected = selector.get_support(indices=True)
-    selected_columns = X.columns[idxs_selected]
-
-    selected_columns = selected_columns.tolist() + [differentialColumn]
-    """
-
-    previouslyGeneratedBestFeatures =['energy', 'loudness', 'tempo', 'speechiness', 'instrumentalness', 'songIsLiked']
-    selected_columns = previouslyGeneratedBestFeatures
-
-    dataSet = dataSetTemp[selected_columns]
-
-    return dataSet
+from stampe import prGreen, prPurple, prRed, prYellow
+from userInterface import querySystem
 
 
 def modelCreation(dataSet, differentialColumn):
@@ -74,15 +21,14 @@ def modelCreation(dataSet, differentialColumn):
 
     with open("k2_model.pkl", "wb") as file:
         pickle.dump(k2_model, file)
-    
+
     """
-    #reading of the model from file
+    # reading of the model from file
     k2_model = 0
     import pickle
     with open('k2_model.pkl', 'rb') as file:
         k2_model = pickle.load(file)
-    
-    
+
     return k2_model
 
 
@@ -97,7 +43,8 @@ def bNetCreation(k2_model, dataSet):
 def showGraphOfNodes(k2_model, bNet):
     G = nx.MultiDiGraph(k2_model.edges())
     G.add_edges_from(bNet.edges())
-    pos = nx.spring_layout(G, iterations=100, k=2, threshold=5, pos=nx.spiral_layout(G))
+    pos = nx.spring_layout(G, iterations=100, k=2,
+                           threshold=5, pos=nx.spiral_layout(G))
     nx.draw_networkx_nodes(G, pos, node_size=150, node_color="#ff574c")
     nx.draw_networkx_labels(
         G,
@@ -124,19 +71,7 @@ def showGraphOfNodes(k2_model, bNet):
 
     plt.title("BAYESIAN NETWORK GRAPH")
     plt.clf()
-    #plt.show()
-    """
-    import os
-    import datetime
-
-    plt.savefig(
-        os.path.join(
-            os.path.abspath("pic/"),
-            "bayesian_network "
-            + str(datetime.datetime.now().strftime("%d-%m-%y %H-%M-%S")),
-        )
-    )
-    """
+    plt.show()
 
 
 def testQueries(data, differentialColumn):
@@ -155,59 +90,47 @@ def testQueries(data, differentialColumn):
     )
 
     # Potential notLikedSong
-    notLikedSong = data.query( #0
+    notLikedSong = data.query(  # 0
         show_progress=False,
         variables=[differentialColumn],
         evidence={
-            #"trackIsexplicit": 0,
+            # "trackIsexplicit": 0,
             "danceability": 93,
             "energy": 99,
-            #"key": 64,
+            # "key": 64,
             "loudness": 63,
             "speechiness": 99,
             "acousticness": 78,
-            #"instrumentalness": 84,
-            #"liveness": 99,
+            # "instrumentalness": 84,
             "valence": 99,
-            #"tempo": 91,
+            # "tempo": 91,
         },
     )
     prRed("\nProbability for a potential not liked song:")
     print(notLikedSong)
-    
 
     # Potential likedSong
-    likedSong = data.query( #1
+    likedSong = data.query(  # 1
         show_progress=False,
         variables=[differentialColumn],
         evidence={
-            #"trackIsexplicit": 0,
+            # "trackIsexplicit": 0,
             "danceability": 83,
             "energy": 97,
-            #"key": 42,
+            # "key": 42,
             "loudness": 51,
             "speechiness": 99,
             "acousticness": 80,
-            #"instrumentalness": 91,
-            #"liveness": 99,
+            # "instrumentalness": 91,
             "valence": 96,
-            #"tempo": 0,
+            # "tempo": 0,
         },
     )
     prGreen("\nProbability for a potentially liked song:")
     print(likedSong, "\n")
 
 
-def saveData (dataSet):
-    selected_cols = ['energy', 'speechiness', 'instrumentalness', "songIsLiked"]
-    data_selected = dataSet[selected_cols]
-
-    # save the selected columns to a new CSV file
-    data_selected.to_csv('selected_data_file.csv', index=False)
-
 def bayesianNetwork(dataSet, differentialColumn):
-    #dataSet = selectBestFeatures(dataSet, differentialColumn)
-
     model = modelCreation(dataSet, differentialColumn)
 
     bNet = bNetCreation(model, dataSet)
@@ -218,11 +141,6 @@ def bayesianNetwork(dataSet, differentialColumn):
     print(bNet.get_markov_blanket(differentialColumn), "\n")
 
     data = VariableElimination(bNet)
-
-    #saveData (dataSet)
-
-    print ("best features:")
-    printBestFeatures(dataSet, differentialColumn)
 
     testQueries(data, differentialColumn)
 

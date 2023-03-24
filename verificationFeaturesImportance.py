@@ -1,6 +1,5 @@
-import pandas as pd
 import matplotlib.pyplot as plt
-
+import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
 
@@ -15,14 +14,12 @@ def createXfeatureAndyTarget(dataSet, differentialColumn):
 
 
 def visualizeFeaturesImportances(rfc_model, X):
-    # Tracking features based on their importance
     ax = (pd.Series(rfc_model.feature_importances_, index=X.columns)
-          .nlargest(10)  # maximum number of features to display
-          .plot(kind='pie', figsize=(6, 6))  # type of chart and size
-          .invert_yaxis())  # to ensure a descending order
+          .nlargest(10)
+          .plot(kind='pie', figsize=(6, 6))
+          .invert_yaxis())
 
-    # Visualization of the graph of the most important features
     plt.title("Top features derived by Random Forest")
     plt.ylabel("")
-    #plt.clf()
+    plt.clf()
     plt.show()
