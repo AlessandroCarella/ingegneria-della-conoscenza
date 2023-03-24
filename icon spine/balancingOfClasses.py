@@ -33,7 +33,7 @@ def visualizeAspectRatioChart(dataSet, differentialColumn, labels=["Abnormal spi
     plt.title("Graph of occurrence of Normal spine and Abnormal spine")
     plt.legend(labels=labels, loc="best")
     # plt.show()
-    plt.clf()
+    
 
 
 def visualizeNumberOfSamplesForClasses(dataSet):

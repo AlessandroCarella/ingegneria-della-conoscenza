@@ -10,14 +10,14 @@ import os
 
 from stampe import histogramAndDensityPlot
 from datasetCleaning import cleanAndRenameColumnsOfDataset, dataOverview
-from balancingOfClasses import visualizeAspectRatioChart, visualizeNumberOfSamplesForClasses, resampleDataset
+from balancingOfClasses import visualizeAspectRatioChart, visualizeNumberOfSamplesForClasses, resampleDataset, undersampleDataset
 from outliersRemoval import softClusteringEMOutliersRemoval
 from training import trainModelKFold, visualizeMetricsGraphs
 from verificationFeaturesImportance import createXfeatureAndyTarget, visualizeFeaturesImportances
 
 # DATASET CLEANING
 fileName = os.path.join(os.path.dirname(__file__), "dataSet.csv")
-dataSet = pd.read_csv(fileName)
+dataSet = pd.read_csv(fileName).astype(int)
 differentialColumn = "songIsLiked"
 #dataSet = cleanAndRenameColumnsOfDataset(dataSet, differentialColumn)
 """
@@ -42,6 +42,7 @@ visualizeNumberOfSamplesForClasses(dataSet)
 """
 
 dataSet = resampleDataset(dataSet, differentialColumn)
+#dataSet = undersampleDataset(dataSet, differentialColumn)
 
 """
 print(dataSet)
@@ -61,8 +62,9 @@ for i in range (0, 2):
 """
 """
 visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb)
+"""
 
-
+"""
 # VERIFICATION OF THE IMPORTANCE OF FEATURES
 rfc_model, X = createXfeatureAndyTarget(dataSet, differentialColumn)
 

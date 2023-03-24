@@ -24,5 +24,5 @@ def visualizeFeaturesImportances(rfc_model, X):
     # Visualization of the graph of the most important features
     plt.title("Top features derived by Random Forest")
     plt.ylabel("")
+    #plt.clf()
     plt.show()
-    plt.clf()

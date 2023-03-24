@@ -80,7 +80,7 @@ def testQueries(data, differentialColumn):
         variables=[differentialColumn],
         evidence={
             'scoliosis slope': 43, 
-            #'degree spondylolisthesis': 0, 
+            'degree spondylolisthesis': 0, 
             #'pelvic tilt': 22, 
             #'pelvic radius': 98, 
             #'lumbar lordosis angle': 39, 
@@ -97,7 +97,7 @@ def testQueries(data, differentialColumn):
         variables=[differentialColumn],
         evidence={
             'scoliosis slope': 1, #18
-            #'degree spondylolisthesis': 7, 
+            'degree spondylolisthesis': 7, 
             #'pelvic tilt': 16, 
             #'pelvic radius': 127, 
             #'lumbar lordosis angle': 35, 

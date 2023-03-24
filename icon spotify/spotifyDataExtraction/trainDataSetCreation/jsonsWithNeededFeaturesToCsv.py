@@ -3,13 +3,16 @@ import csv
 import math
 
 
-def getValue (singleStreamingHistoryToSpotifyTrackInfo, medialValueForTimesPlayed):
-    value = (
-        (medialValueForTimesPlayed * singleStreamingHistoryToSpotifyTrackInfo["msPlayed"]) 
-                                    /    
-                singleStreamingHistoryToSpotifyTrackInfo["trackDuration"]
-        )
+def normalizeCos1To100 (value):
     return (math.cos(value) + 1) / 2 * 100
+
+def getValue (singleStreamingHistoryToSpotifyTrackInfo):
+    value = (
+        singleStreamingHistoryToSpotifyTrackInfo["msPlayed"]
+                                /    
+        singleStreamingHistoryToSpotifyTrackInfo["trackDuration"]
+        )
+    return normalizeCos1To100(value)
 
 def findMedianValueForKey (singleStreamingHistoryToSpotifyTrackInfo, key):
     values = [obj[key] for obj in singleStreamingHistoryToSpotifyTrackInfo]
@@ -25,8 +28,6 @@ def jsonsWithNeededFeaturesToCvs ():
 
     SpotifyTrackInfoToTrackStats = getJsonList('spotifyDataExtraction/trainDataSetCreation/SpotifyTrackInfoToTrackStats.json')
 
-    medialValueForTimesPlayed = findMedianValueForKey (StreamingHistoryToSpotifyTrackInfo, "timesPlayed")
-
     if (len (StreamingHistoryToSpotifyTrackInfo) == len (SpotifyTrackInfoToTrackStats)):
         outputData = []
         for singleStreamingHistoryToSpotifyTrackInfo, singleSpotifyTrackInfoToTrackStats in zip(StreamingHistoryToSpotifyTrackInfo, SpotifyTrackInfoToTrackStats):
@@ -41,21 +42,21 @@ def jsonsWithNeededFeaturesToCvs ():
             if singleSpotifyTrackInfoToTrackStats: 
                 outputData.append({
                     #from StreamingHistoryToSpotifyTrackInfo:
-                    ##"trackUri": singleStreamingHistoryToSpotifyTrackInfo["trackUri"], #as id
+                    ##"trackUri": normalizeCos1To100(singleStreamingHistoryToSpotifyTrackInfo["trackUri"]), #as id
                     "trackIsexplicit": 1 if singleStreamingHistoryToSpotifyTrackInfo["trackIsexplicit"] else 0, #to check wheter the user prefers explicit tracks
-                    #from SpotifyTrackInfoToTrackStats: (* 1000 to have only int values (not all values become integers but that makes little difference))
-                    "danceability": singleSpotifyTrackInfoToTrackStats["danceability"] * 1000,
-                    "energy": singleSpotifyTrackInfoToTrackStats["energy"] * 1000,
-                    "key": singleSpotifyTrackInfoToTrackStats["key"] * 1000,
-                    "loudness": singleSpotifyTrackInfoToTrackStats["loudness"] * 1000,
-                    "speechiness": singleSpotifyTrackInfoToTrackStats["speechiness"] * 1000,
-                    "acousticness": singleSpotifyTrackInfoToTrackStats["acousticness"] * 1000,
-                    "instrumentalness": singleSpotifyTrackInfoToTrackStats["instrumentalness"] * 1000,
-                    "liveness": singleSpotifyTrackInfoToTrackStats["liveness"] * 1000,
-                    "valence": singleSpotifyTrackInfoToTrackStats["valence"] * 1000,
-                    "tempo": singleSpotifyTrackInfoToTrackStats["tempo"] * 1000,
+                    #from SpotifyTrackInfoToTrackStats:
+                    "danceability": normalizeCos1To100(singleSpotifyTrackInfoToTrackStats["danceability"]),
+                    "energy": normalizeCos1To100(singleSpotifyTrackInfoToTrackStats["energy"]),
+                    "key": normalizeCos1To100(singleSpotifyTrackInfoToTrackStats["key"]),
+                    "loudness": normalizeCos1To100(singleSpotifyTrackInfoToTrackStats["loudness"]),
+                    "speechiness": normalizeCos1To100(singleSpotifyTrackInfoToTrackStats["speechiness"]),
+                    "acousticness": normalizeCos1To100(singleSpotifyTrackInfoToTrackStats["acousticness"]),
+                    "instrumentalness": normalizeCos1To100(singleSpotifyTrackInfoToTrackStats["instrumentalness"]),
+                    "liveness": normalizeCos1To100(singleSpotifyTrackInfoToTrackStats["liveness"]),
+                    "valence": normalizeCos1To100(singleSpotifyTrackInfoToTrackStats["valence"]),
+                    "tempo": normalizeCos1To100(singleSpotifyTrackInfoToTrackStats["tempo"]),
                     #calculated from data
-                    "songIsLiked": 1 if getValue (singleStreamingHistoryToSpotifyTrackInfo, medialValueForTimesPlayed) >= 50 else 0,
+                    "songIsLiked": 1 if getValue (singleStreamingHistoryToSpotifyTrackInfo) >= 50 else 0,
                     }
                 )
         

@@ -1,12 +1,21 @@
 import subprocess
 import sys
+from tqdm import  tqdm
 
 def install(package):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package], stdout=devnull, stderr=devnull)
+    except:
+        pass
 
 def installPackages ():
     packages = []
     with open ("requirements.txt", "r") as file:
         packages = file.readlines()
-    for package in packages:
+    print ("Installing requirements")
+    for package in tqdm(packages):
+        install(package)
+        
+    print ("Checking installed packages")
+    for package in tqdm(packages):
         install(package)
