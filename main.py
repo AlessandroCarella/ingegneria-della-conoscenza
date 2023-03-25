@@ -18,6 +18,9 @@ fileName = os.path.join(os.path.dirname(__file__), "dataSet.csv")
 dataSet = pd.read_csv(fileName).astype(int)
 differentialColumn = "songIsLiked"
 
+
+print("\nInfo dataset:\n", dataSet.describe())
+
 # LEARNING NON SUPERVISIONATO (CLUSTERING)
 dataSet = softClusteringEMOutliersRemoval(dataSet)
 

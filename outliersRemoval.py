@@ -14,8 +14,7 @@ def softClusteringEMOutliersRemoval(dataSet):
     outliers = np.where(likelihoods < outlier_threshold)[0]
     clean_data = dataSet.drop(outliers)
 
-    print(
-        f'Removed {len(outliers)} outliers from dataset. Cleaned dataset size: {clean_data.shape}')
+    print('Removed ' +  str(len(outliers)) + ' outliers from dataset. Cleaned dataset size: ' + str(clean_data.shape))
 
     dataSet.to_csv('cleanedDataSetSoftClusteringEM.csv', index=False)
 

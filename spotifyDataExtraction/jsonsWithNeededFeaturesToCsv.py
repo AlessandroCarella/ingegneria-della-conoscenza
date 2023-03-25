@@ -4,7 +4,7 @@ import math
 
 
 def normalizeCos1To100(value):
-    return (math.cos(value) + 1) / 2 * 100
+    return int((math.cos(value) + 1) / 2 * 100)
 
 
 def getValue(singleStreamingHistoryToSpotifyTrackInfo):
