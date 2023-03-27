@@ -27,10 +27,8 @@ dataSet = softClusteringEMOutliersRemoval(dataSet)
 
 # BALANCING OF CLASSES
 visualizeAspectRatioChart(dataSet, differentialColumn)
-# visualizeNumberOfSamplesForClasses(dataSet)
 
 dataSet = resampleDataset(dataSet, differentialColumn)
-# dataSet = undersampleDataset(dataSet, differentialColumn)
 
 visualizeAspectRatioChart(dataSet, differentialColumn)
 
