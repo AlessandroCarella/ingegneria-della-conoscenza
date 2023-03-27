@@ -4,8 +4,8 @@ import networkx as nx
 from pgmpy.inference import VariableElimination
 from pgmpy.models import BayesianNetwork
 
-from stampe import prGreen, prPurple, prRed, prYellow
-from userInterface import querySystem
+from stampe import prGreen, prRed, prYellow
+from userInterface import querySystem, outputExplain
 
 
 def modelCreation(dataSet, differentialColumn):
@@ -75,35 +75,23 @@ def showGraphOfNodes(k2_model, bNet):
 
 
 def testQueries(data, differentialColumn):
-    prYellow("Probability results for songIsLiked are so structured:")
-    print(
-        "+-------------------------------+---------------------------+\n",
-        "|         feature name          |    feature probability    |\n",
-        "+===============================+===========================+\n",
-        "|  feature name(not liked song) | probability feature (val) |\n",
-        "+-------------------------------+---------------------------+\n",
-        "|   feature name(liked song)    | probability feature (val) |\n",
-        "+-------------------------------+---------------------------+",
-    )
-    prPurple(
-        "Probability value fluctuates between 0 (impossible event) to 1 (certain event)\n"
-    )
+    outputExplain ()
 
     # Potential notLikedSong
     notLikedSong = data.query(  # 0
         show_progress=False,
         variables=[differentialColumn],
         evidence={
-            # "trackIsexplicit": 0,
-            "danceability": 93,
-            "energy": 99,
-            # "key": 64,
-            "loudness": 63,
-            "speechiness": 99,
-            "acousticness": 78,
-            # "instrumentalness": 84,
-            "valence": 99,
-            # "tempo": 91,
+            'trackIsexplicit': 0,
+            'danceability': 91,
+            'energy': 83,
+            'key': 4,
+            'loudness': 29,
+            'speechiness': 99,
+            'acousticness': 99,
+            'instrumentalness': 100,
+            'valence': 88,
+            'tempo': 92
         },
     )
     prRed("\nProbability for a potential not liked song:")
@@ -114,16 +102,16 @@ def testQueries(data, differentialColumn):
         show_progress=False,
         variables=[differentialColumn],
         evidence={
-            # "trackIsexplicit": 0,
-            "danceability": 83,
-            "energy": 97,
-            # "key": 42,
-            "loudness": 51,
-            "speechiness": 99,
-            "acousticness": 80,
-            # "instrumentalness": 91,
-            "valence": 96,
-            # "tempo": 0,
+            'trackIsexplicit': 1, 
+            'danceability': 83, 
+            'energy': 88, 
+            'key': 98, 
+            'loudness': 13,
+            'speechiness': 99, 
+            'acousticness': 98, 
+            'instrumentalness': 99, 
+            'valence': 90, 
+            'tempo': 96
         },
     )
     prGreen("\nProbability for a potentially liked song:")

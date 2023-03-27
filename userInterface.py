@@ -65,8 +65,7 @@ def outputExplain():
 
 def querySystem(data, differentialColumn):
     prYellow(
-        "\n\n\t\t\t\t\tWelcome to my system!\n\n\t"
-        "It allows you to predict whether, taken a song, the user the data are generated on would like it or not.\n\n"
+        "Welcome to my system, with this tool you can, taken a song, playlist or album spotify link, predict if the user the data are generated on would like it or not.\n"
     )
 
     outputExplain()
