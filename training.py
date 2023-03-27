@@ -11,7 +11,6 @@ from sklearn.tree import DecisionTreeClassifier
 
 
 def createModel():
-    # Score of metrics
     model = {
         'KNN': {'accuracy_list': 0.0,
                 'precision_list': 0.0,
@@ -196,7 +195,7 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
         'index', axis=1)
     print("\n", dataSet_models_concat)
 
-    # Accuracy Graph
+    # Accuracy 
     x = dataSet_models_concat.model
     y = dataSet_models_concat.accuracy
 
@@ -205,7 +204,7 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
     plt.show()
     plt.clf()
 
-    # Precision Graph
+    # Precision 
     x = dataSet_models_concat.model
     y = dataSet_models_concat.precision
 
@@ -214,7 +213,7 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
     plt.show()
     plt.clf()
 
-    # Recall Graph
+    # Recall 
     x = dataSet_models_concat.model
     y = dataSet_models_concat.recall
 
@@ -223,7 +222,7 @@ def visualizeMetricsGraphs(model, X_test, y_test, knn, dtc, rfc, svc, bnb, gnb):
     plt.show()
     plt.clf()
 
-    # F1score Graph
+    # F1score 
     x = dataSet_models_concat.model
     y = dataSet_models_concat.f1score
 

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import networkx as nx
-#
+
 from pgmpy.inference import VariableElimination
 from pgmpy.models import BayesianNetwork
 
@@ -23,7 +23,7 @@ def modelCreation(dataSet, differentialColumn):
         pickle.dump(k2_model, file)
 
     """
-    # reading of the model from file
+    # reading of the already generated model from file
     k2_model = 0
     import pickle
     with open('k2_model.pkl', 'rb') as file:

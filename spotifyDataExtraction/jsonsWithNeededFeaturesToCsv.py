@@ -48,8 +48,6 @@ def jsonsWithNeededFeaturesToCvs():
             if singleSpotifyTrackInfoToTrackStats:
                 outputData.append({
                     # from StreamingHistoryToSpotifyTrackInfo:
-                    # "trackUri": normalizeCos1To100(singleStreamingHistoryToSpotifyTrackInfo["trackUri"]), #as id
-                    # to check wheter the user prefers explicit tracks
                     "trackIsexplicit": 1 if singleStreamingHistoryToSpotifyTrackInfo["trackIsexplicit"] else 0,
                     # from SpotifyTrackInfoToTrackStats:
                     "danceability": normalizeCos1To100(singleSpotifyTrackInfoToTrackStats["danceability"]),
